@@ -7,6 +7,7 @@ import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:android_smartscholl/helper/constant.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -51,7 +52,7 @@ class _LoginState extends State<Login> {
           (Set<MaterialState> states) {
             final Color color = states.contains(MaterialState.error)
                 ? Theme.of(context).colorScheme.error
-                : Color(0xFFFF7643);
+                : kPrimaryColor;
             return TextStyle(color: color, letterSpacing: 1.3);
           },
         ),
@@ -59,10 +60,10 @@ class _LoginState extends State<Login> {
         fillColor: const Color.fromARGB(255, 230, 230, 230),
         contentPadding: const EdgeInsets.fromLTRB(20.0, 25.0, 20.0, 25.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
-        prefixIcon: const Icon(Icons.person, color: Color(0xFFFF7643)),
+        prefixIcon: const Icon(Icons.person, color: kPrimaryColor),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(25.0),
-          borderSide: const BorderSide(color: Color(0xFFFF7643)),
+          borderSide: const BorderSide(color: kPrimaryColor),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(25.0),
@@ -84,7 +85,7 @@ class _LoginState extends State<Login> {
           (Set<MaterialState> states) {
             final Color color = states.contains(MaterialState.error)
                 ? Theme.of(context).colorScheme.error
-                : Color(0xFFFF7643);
+                : kPrimaryColor;
             return TextStyle(color: color, letterSpacing: 1.3);
           },
         ),
@@ -92,7 +93,7 @@ class _LoginState extends State<Login> {
 
         filled: true,
         fillColor: const Color.fromARGB(255, 230, 230, 230),
-        prefixIcon: const Icon(Icons.key, color: Color(0xFFFF7643)),
+        prefixIcon: const Icon(Icons.key, color: kPrimaryColor),
         suffixIcon: IconButton(
           icon: Icon(
             _obscureText ? Icons.visibility_off : Icons.visibility,
@@ -104,7 +105,7 @@ class _LoginState extends State<Login> {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(25.0),
           borderSide: const BorderSide(
-            color: Color(0xFFFF7643),
+            color: kPrimaryColor,
           ),
         ),
         enabledBorder: OutlineInputBorder(
@@ -187,7 +188,7 @@ class _LoginState extends State<Login> {
             } catch (e) {}
           },
           padding: const EdgeInsets.all(20),
-          color: const Color(0xFFFF7643),
+          color: kPrimaryColor,
           child: isSuccess
               ? CircularProgressIndicator()
               : Text('LOGIN',

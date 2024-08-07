@@ -48,7 +48,7 @@ class _GantiPasswordState extends ResumableState<GantiPassword> {
           (Set<MaterialState> states) {
             final Color color = states.contains(MaterialState.error)
                 ? Theme.of(context).colorScheme.error
-                : Color(0xFFFF7643);
+                : kPrimaryColor;
             return TextStyle(color: color, letterSpacing: 1.3);
           },
         ),
@@ -56,7 +56,7 @@ class _GantiPasswordState extends ResumableState<GantiPassword> {
 
         filled: true,
         fillColor: const Color.fromARGB(255, 230, 230, 230),
-        prefixIcon: const Icon(Icons.key, color: Color(0xFFFF7643)),
+        prefixIcon: const Icon(Icons.key, color: kPrimaryColor),
         suffixIcon: IconButton(
           icon: Icon(
             _obscureText ? Icons.visibility_off : Icons.visibility,
@@ -68,7 +68,7 @@ class _GantiPasswordState extends ResumableState<GantiPassword> {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(25.0),
           borderSide: const BorderSide(
-            color: Color(0xFFFF7643),
+            color: kPrimaryColor,
           ),
         ),
         enabledBorder: OutlineInputBorder(
@@ -92,7 +92,7 @@ class _GantiPasswordState extends ResumableState<GantiPassword> {
           (Set<MaterialState> states) {
             final Color color = states.contains(MaterialState.error)
                 ? Theme.of(context).colorScheme.error
-                : Color(0xFFFF7643);
+                : kPrimaryColor;
             return TextStyle(color: color, letterSpacing: 1.3);
           },
         ),
@@ -100,7 +100,7 @@ class _GantiPasswordState extends ResumableState<GantiPassword> {
 
         filled: true,
         fillColor: const Color.fromARGB(255, 230, 230, 230),
-        prefixIcon: const Icon(Icons.key, color: Color(0xFFFF7643)),
+        prefixIcon: const Icon(Icons.key, color: kPrimaryColor),
         suffixIcon: IconButton(
           icon: Icon(
             _obscureTextConfirmation ? Icons.visibility_off : Icons.visibility,
@@ -112,7 +112,7 @@ class _GantiPasswordState extends ResumableState<GantiPassword> {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(25.0),
           borderSide: const BorderSide(
-            color: Color(0xFFFF7643),
+            color: kPrimaryColor,
           ),
         ),
         enabledBorder: OutlineInputBorder(
@@ -191,7 +191,7 @@ class _GantiPasswordState extends ResumableState<GantiPassword> {
             }
           },
           padding: const EdgeInsets.all(20),
-          color: Color(0xFFFF7643),
+          color: kPrimaryColor,
           child: isSuccess
               ? const CircularProgressIndicator()
               : const Text('Ganti Password',

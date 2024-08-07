@@ -6,6 +6,7 @@ import 'package:android_smartscholl/core/client/dio_client.dart';
 import 'package:android_smartscholl/helper/constant.dart';
 import 'package:android_smartscholl/helper/currencyIdr.dart';
 import 'package:android_smartscholl/helper/sizeConfig.dart';
+import 'package:android_smartscholl/helper/skeleton.dart';
 import 'package:android_smartscholl/home/gantipassword/gantiPassword.dart';
 import 'package:android_smartscholl/models/detailTagihanModel.dart';
 import 'package:android_smartscholl/models/tagihanModel.dart';
@@ -29,13 +30,18 @@ class _HomeScreenState extends ResumableState<HomeScreen> {
   String jenjang = "";
   String kelas = "";
   int saldoUangSaku = 0;
+  bool bSaldoUangSaku = false;
+
   int saldoSpp = 0;
+  bool bSaldo = false;
+
   bool isSuccess = false;
   var tagihanData;
   int totaltagihan = 0;
   int totalBayar = 0;
   bool isTagihan = true;
   List<TagihanModel>? tagihanLnd = [];
+  bool bTagihanLnd = false;
 
   @override
   void onReady() {
@@ -46,16 +52,23 @@ class _HomeScreenState extends ResumableState<HomeScreen> {
   @override
   void onResume() {
     super.onResume();
+    // ini untuk ketika update biar langsung
     getList();
   }
 
   Future<void> getList() async {
-    setState(() {
-      isSuccess = true;
-    });
     final dataMhs = await Hive.openBox('myToken');
     var password = dataMhs.get('password');
     var username = dataMhs.get('username');
+    setState(() {
+      isSuccess = true;
+      mahasiswa = dataMhs.get('mahasiswa');
+      vasaku = dataMhs.get('novasaku');
+      vaspp = dataMhs.get('nova');
+      jenjang = dataMhs.get('jenjang');
+      kelas = dataMhs.get('kelas');
+      isSuccess = false;
+    });
 
     final jwtSaldo = JWT({
       'METHOD': 'SaldoRequest',
@@ -68,6 +81,11 @@ class _HomeScreenState extends ResumableState<HomeScreen> {
     var arrResponseSaldo = jsonDecode(responseSaldo.toString());
     var saldo = int.parse(arrResponseSaldo['SALDO']);
 
+    setState(() {
+      bSaldo = true;
+      saldoSpp = saldo;
+    });
+
     final jwtSaku = JWT({
       'METHOD': 'SaldoRequestSaku',
       'USERNAME': username,
@@ -79,6 +97,10 @@ class _HomeScreenState extends ResumableState<HomeScreen> {
     var arrResponseSaku = jsonDecode(responseSaku.toString());
     var saku = int.parse(arrResponseSaku['SALDOSAKU']);
 
+    setState(() {
+      bSaldoUangSaku = true;
+      saldoUangSaku = saku;
+    });
     final jwtTagihan = JWT({
       'METHOD': 'BillRequest',
       'USERNAME': username,
@@ -123,20 +145,10 @@ class _HomeScreenState extends ResumableState<HomeScreen> {
         totaltagihan =
             tagihanLnd!.fold(0, (sum, item) => sum + item.totalNominal);
       }
-      saldoSpp = saldo;
-      saldoUangSaku = saku;
-      mahasiswa = dataMhs.get('mahasiswa');
-      vasaku = dataMhs.get('novasaku');
-      vaspp = dataMhs.get('nova');
-      jenjang = dataMhs.get('jenjang');
-      kelas = dataMhs.get('kelas');
-      isSuccess = false;
     });
     setState(() {
       totalBayar = totaltagihan - saldoSpp;
     });
-    print("----------------------------------------------------------------");
-    print(totaltagihan);
   }
 
   @override
@@ -146,7 +158,7 @@ class _HomeScreenState extends ResumableState<HomeScreen> {
         Container(
           margin: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: const Color(0xFFFF7643),
+            color: kPrimaryColor,
             borderRadius: BorderRadius.circular(30),
             boxShadow: const [
               BoxShadow(
@@ -253,7 +265,7 @@ class _HomeScreenState extends ResumableState<HomeScreen> {
                                         padding: const EdgeInsets.only(
                                             top: 9, bottom: 9, left: 20),
                                         child: Text(
-                                            ' ${tagihanLnd![index].namaTagihan}  ${CurencyIdr.convertToIdr(tagihanLnd![index].totalNominal, 2)}',
+                                            ' ${tagihanLnd![index].namaTagihan}  ${CurencyIdr.convertToIdr(tagihanLnd![index].totalNominal, 0)}',
                                             style: TextStyle(
                                                 fontSize:
                                                     getProportionateScreenWidth(
@@ -292,7 +304,7 @@ class _HomeScreenState extends ResumableState<HomeScreen> {
                                 padding: const EdgeInsets.only(
                                     top: 9, bottom: 9, left: 20),
                                 child: Text(
-                                    'Bayar sejumlah ${CurencyIdr.convertToIdr(totalBayar, 2)} untuk melunasi tagihan',
+                                    'Bayar sejumlah ${CurencyIdr.convertToIdr(totalBayar, 0)} untuk melunasi tagihan',
                                     style: TextStyle(
                                         fontSize:
                                             getProportionateScreenWidth(15))),
@@ -324,6 +336,7 @@ class _HomeScreenState extends ResumableState<HomeScreen> {
           child: const Text('Ganti Password',
               style: TextStyle(color: Color.fromRGBO(255, 255, 255, 1)))),
     );
+
     final data = Center(
       /** Card Widget **/
       child: Column(
@@ -478,11 +491,18 @@ class _HomeScreenState extends ResumableState<HomeScreen> {
                               child: Padding(
                                 padding: const EdgeInsets.only(
                                     top: 9, bottom: 9, left: 20),
-                                child: Text(
-                                    '${CurencyIdr.convertToIdr(saldoUangSaku, 2)}',
-                                    style: TextStyle(
-                                        fontSize:
-                                            getProportionateScreenWidth(15))),
+                                child: bSaldoUangSaku
+                                    ? Text(
+                                        '${CurencyIdr.convertToIdr(saldoUangSaku, 0)}',
+                                        style: TextStyle(
+                                            fontSize:
+                                                getProportionateScreenWidth(
+                                                    15)))
+                                    : CustomShimmer(
+                                        height:
+                                            getProportionateScreenHeight(20),
+                                        width: getProportionateScreenWidth(150),
+                                      ),
                               )),
                           const Divider(
                             // thickness: 1,
@@ -504,11 +524,18 @@ class _HomeScreenState extends ResumableState<HomeScreen> {
                               child: Padding(
                                 padding: const EdgeInsets.only(
                                     top: 9, bottom: 9, left: 20),
-                                child: Text(
-                                    '${CurencyIdr.convertToIdr(saldoSpp, 2)}',
-                                    style: TextStyle(
-                                        fontSize:
-                                            getProportionateScreenWidth(15))),
+                                child: bSaldo
+                                    ? Text(
+                                        '${CurencyIdr.convertToIdr(saldoSpp, 0)}',
+                                        style: TextStyle(
+                                            fontSize:
+                                                getProportionateScreenWidth(
+                                                    15)))
+                                    : CustomShimmer(
+                                        height:
+                                            getProportionateScreenHeight(20),
+                                        width: getProportionateScreenWidth(150),
+                                      ),
                               )),
                           const Divider(
                             // thickness: 1,
@@ -523,10 +550,8 @@ class _HomeScreenState extends ResumableState<HomeScreen> {
       ), //Card
     );
 
-    return isSuccess
-        ? const CircularProgressIndicator()
-        : ListView(
-            children: [header, data, SizedBox(height: 20), himbauan, button]);
+    return ListView(
+        children: [header, data, SizedBox(height: 20), himbauan, button]);
   }
 
   void _copyToClipboard(BuildContext context, String text) {
