@@ -67,7 +67,8 @@ class _LihatTagihanState extends ResumableState<LihatTagihan> {
                   (detailElement) => DetailTagihanModel(
                     kodePost: detailElement['KodePost'].toString(),
                     namaPost: detailElement['NamaPost'].toString(),
-                    detailNominal: int.parse(detailElement['DetailNominal']),
+                    detailNominal: int.parse(
+                        detailElement['DetailNominal'].replaceAll('.', '')),
                   ),
                 )
                 .toList();
@@ -75,7 +76,8 @@ class _LihatTagihanState extends ResumableState<LihatTagihan> {
               namaTagihan: element['NamaTagihan'].toString(),
               kodeTagihan: element['KodeTagihan'].toString(),
               tahunAkademik: element['TahunAkademik'].toString(),
-              totalNominal: int.parse(element['TotalNominal']),
+              totalNominal:
+                  int.parse(element['TotalNominal'].replaceAll('.', '')),
               detailTagihan: detailTagihanList,
             );
           }).toList();
@@ -141,195 +143,226 @@ class _LihatTagihanState extends ResumableState<LihatTagihan> {
                       ),
                     ),
                   ),
-                  ListView.builder(
-                      itemCount: tagihanLnd!.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return Column(
-                          children: [
-                            tagihanLnd!.length > 0
-                                ? Card(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        children: [
-                                          SizedBox(
+                  Container(
+                    child: ListView.builder(
+                        itemCount: tagihanLnd!.length,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return Column(
+                            children: [
+                              tagihanLnd!.length > 0
+                                  ? Card(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          children: [
+                                            SizedBox(
+                                                height:
+                                                    getProportionateScreenHeight(
+                                                        10)),
+                                            Row(
+                                              children: [
+                                                const Icon(
+                                                  Icons.book,
+                                                  size: 30.0,
+                                                ),
+                                                SizedBox(
+                                                    width:
+                                                        getProportionateScreenWidth(
+                                                            25)),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    const Text(
+                                                      'Nama Tagihan',
+                                                      style: TextStyle(
+                                                          fontSize: 17.0,
+                                                          color: Colors.grey),
+                                                    ),
+                                                    Text(
+                                                      '${tagihanLnd![index].namaTagihan}',
+                                                      style: const TextStyle(
+                                                        fontSize: 20.0,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                                height:
+                                                    getProportionateScreenHeight(
+                                                        10)),
+                                            Row(
+                                              children: [
+                                                const Icon(
+                                                  Icons.calendar_month,
+                                                  size: 30.0,
+                                                ),
+                                                SizedBox(
+                                                    width:
+                                                        getProportionateScreenWidth(
+                                                            25)),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    const Text(
+                                                      'Tahun Akademik',
+                                                      style: TextStyle(
+                                                          fontSize: 17.0,
+                                                          color: Colors.grey),
+                                                    ),
+                                                    Text(
+                                                      '${tagihanLnd![index].tahunAkademik}',
+                                                      style: const TextStyle(
+                                                        fontSize: 20.0,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                                height:
+                                                    getProportionateScreenHeight(
+                                                        10)),
+                                            Row(
+                                              children: [
+                                                const Icon(
+                                                  Icons.wallet,
+                                                  size: 30.0,
+                                                ),
+                                                SizedBox(
+                                                    width:
+                                                        getProportionateScreenWidth(
+                                                            25)),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    const Text(
+                                                      'Jumlah Tagihan',
+                                                      style: TextStyle(
+                                                          fontSize: 17.0,
+                                                          color: Colors.grey),
+                                                    ),
+                                                    Text(
+                                                      '${CurencyIdr.convertToIdr(tagihanLnd![index].totalNominal, 2)}',
+                                                      style: const TextStyle(
+                                                        fontSize: 20.0,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
                                               height:
                                                   getProportionateScreenHeight(
-                                                      10)),
-                                          Row(
-                                            children: [
-                                              const Icon(
-                                                Icons.book,
-                                                size: 30.0,
-                                              ),
-                                              SizedBox(
-                                                  width:
-                                                      getProportionateScreenWidth(
-                                                          25)),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  const Text(
-                                                    'Nama Tagihan',
-                                                    style: TextStyle(
-                                                        fontSize: 17.0,
-                                                        color: Colors.grey),
-                                                  ),
-                                                  Text(
-                                                    '${tagihanLnd![index].namaTagihan}',
-                                                    style: const TextStyle(
-                                                      fontSize: 20.0,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                              height:
-                                                  getProportionateScreenHeight(
-                                                      10)),
-                                          Row(
-                                            children: [
-                                              const Icon(
-                                                Icons.calendar_month,
-                                                size: 30.0,
-                                              ),
-                                              SizedBox(
-                                                  width:
-                                                      getProportionateScreenWidth(
-                                                          25)),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  const Text(
-                                                    'Tahun Akademik',
-                                                    style: TextStyle(
-                                                        fontSize: 17.0,
-                                                        color: Colors.grey),
-                                                  ),
-                                                  Text(
-                                                    '${tagihanLnd![index].tahunAkademik}',
-                                                    style: const TextStyle(
-                                                      fontSize: 20.0,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                              height:
-                                                  getProportionateScreenHeight(
-                                                      10)),
-                                          Row(
-                                            children: [
-                                              const Icon(
-                                                Icons.wallet,
-                                                size: 30.0,
-                                              ),
-                                              SizedBox(
-                                                  width:
-                                                      getProportionateScreenWidth(
-                                                          25)),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  const Text(
-                                                    'Jumlah Tagihan',
-                                                    style: TextStyle(
-                                                        fontSize: 17.0,
-                                                        color: Colors.grey),
-                                                  ),
-                                                  Text(
-                                                    '${CurencyIdr.convertToIdr(tagihanLnd![index].totalNominal, 2)}',
-                                                    style: const TextStyle(
-                                                      fontSize: 20.0,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height:
-                                                getProportionateScreenHeight(
-                                                    10),
-                                          ),
-                                          ExpansionTile(
-                                            title: const Text("Lihat Detail"),
-                                            children: [
-                                              ListView.builder(
-                                                  itemCount: tagihanLnd![index]
-                                                      .detailTagihan
-                                                      .length,
-                                                  shrinkWrap: true,
-                                                  itemBuilder:
-                                                      (contextT, indexX) {
-                                                    return Column(
-                                                      children: [
-                                                        Column(
-                                                          children: [
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .all(8.0),
-                                                              child: Row(
-                                                                children: [
-                                                                  Expanded(
-                                                                      child:
-                                                                          Text(
-                                                                    "${tagihanLnd![index].detailTagihan[indexX].namaPost}",
-                                                                    style: const TextStyle(
-                                                                        fontSize:
-                                                                            17,
-                                                                        color: Colors
-                                                                            .grey),
-                                                                  )),
-                                                                  Expanded(
-                                                                      child:
-                                                                          Text(
-                                                                    "${CurencyIdr.convertToIdr(tagihanLnd![index].detailTagihan[indexX].detailNominal, 2)}",
-                                                                    style: const TextStyle(
-                                                                        fontSize:
-                                                                            17,
-                                                                        fontWeight:
-                                                                            FontWeight.bold),
-                                                                    textAlign:
-                                                                        TextAlign
-                                                                            .right,
-                                                                  )),
-                                                                ],
+                                                      10),
+                                            ),
+                                            ExpansionTile(
+                                              title: const Text("Lihat Detail"),
+                                              children: [
+                                                ListView.builder(
+                                                    itemCount:
+                                                        tagihanLnd![index]
+                                                            .detailTagihan
+                                                            .length,
+                                                    shrinkWrap: true,
+                                                    itemBuilder:
+                                                        (contextT, indexX) {
+                                                      return Column(
+                                                        children: [
+                                                          Column(
+                                                            children: [
+                                                              Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .all(
+                                                                        8.0),
+                                                                child: Row(
+                                                                  children: [
+                                                                    Expanded(
+                                                                        child:
+                                                                            Text(
+                                                                      "${tagihanLnd![index].detailTagihan[indexX].namaPost}",
+                                                                      style: const TextStyle(
+                                                                          fontSize:
+                                                                              17,
+                                                                          color:
+                                                                              Colors.grey),
+                                                                    )),
+                                                                    Expanded(
+                                                                        child:
+                                                                            Text(
+                                                                      "${CurencyIdr.convertToIdr(tagihanLnd![index].detailTagihan[indexX].detailNominal, 2)}",
+                                                                      style: const TextStyle(
+                                                                          fontSize:
+                                                                              17,
+                                                                          fontWeight:
+                                                                              FontWeight.bold),
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .right,
+                                                                    )),
+                                                                  ],
+                                                                ),
                                                               ),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      );
+                                                    }),
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return AlertDialog(
+                                                          title: Text(
+                                                              'Detail for'),
+                                                          content: Text(
+                                                              'This is some detailed information for.'),
+                                                          actions: <Widget>[
+                                                            TextButton(
+                                                              child:
+                                                                  Text('Close'),
+                                                              onPressed: () {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              },
                                                             ),
-                                                            // Tambahkan lebih banyak Row atau widget lain jika diperlukan
                                                           ],
-                                                        )
-                                                      ],
+                                                        );
+                                                      },
                                                     );
-                                                  })
-                                            ],
-                                          ),
-                                        ],
+                                                  },
+                                                  child: Text('View'),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  )
-                                : const Center(
-                                    child: Text('tidak ada data'),
-                                  )
-                          ],
-                        );
-                      }),
+                                    )
+                                  : const Center(
+                                      child: Text('tidak ada data'),
+                                    )
+                            ],
+                          );
+                        }),
+                  ),
                 ],
               )),
     );

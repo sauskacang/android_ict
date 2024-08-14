@@ -79,7 +79,7 @@ class _HomeScreenState extends ResumableState<HomeScreen> {
     var responseSaldo = await DioClient()
         .apiCall(url: '?token=$tokenSaldo', requestType: RequestType.get);
     var arrResponseSaldo = jsonDecode(responseSaldo.toString());
-    var saldo = int.parse(arrResponseSaldo['SALDO']);
+    var saldo = int.parse(arrResponseSaldo['SALDO'].replaceAll('.', ''));
 
     setState(() {
       bSaldo = true;
@@ -95,7 +95,7 @@ class _HomeScreenState extends ResumableState<HomeScreen> {
     var responseSaku = await DioClient()
         .apiCall(url: '?token=$tokenSaku', requestType: RequestType.get);
     var arrResponseSaku = jsonDecode(responseSaku.toString());
-    var saku = int.parse(arrResponseSaku['SALDOSAKU']);
+    var saku = int.parse(arrResponseSaku['SALDOSAKU'].replaceAll('.', ''));
 
     setState(() {
       bSaldoUangSaku = true;
@@ -128,7 +128,8 @@ class _HomeScreenState extends ResumableState<HomeScreen> {
                     (detailElement) => DetailTagihanModel(
                       kodePost: detailElement['KodePost'].toString(),
                       namaPost: detailElement['NamaPost'].toString(),
-                      detailNominal: int.parse(detailElement['DetailNominal']),
+                      detailNominal: int.parse(
+                          detailElement['DetailNominal'].replaceAll('.', '')),
                     ),
                   )
                   .toList();
@@ -137,7 +138,8 @@ class _HomeScreenState extends ResumableState<HomeScreen> {
                 namaTagihan: element['NamaTagihan'].toString(),
                 kodeTagihan: element['KodeTagihan'].toString(),
                 tahunAkademik: element['TahunAkademik'].toString(),
-                totalNominal: int.parse(element['TotalNominal']),
+                totalNominal:
+                    int.parse(element['TotalNominal'].replaceAll('.', '')),
                 detailTagihan: detailTagihanList,
               );
             }).toList();
@@ -349,7 +351,7 @@ class _HomeScreenState extends ResumableState<HomeScreen> {
             color: Colors.white,
             child: SizedBox(
               width: getProportionateScreenWidth(340),
-              height: getProportionateScreenHeight(450),
+              height: getProportionateScreenHeight(400),
               child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: ListView(
@@ -477,39 +479,39 @@ class _HomeScreenState extends ResumableState<HomeScreen> {
                             endIndent: 10,
                           ),
                         ]),
-                        Column(children: [
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            // padding: const EdgeInsets.all(11.0),
-                            child: Text('Saldo Uang Saku',
-                                style: TextStyle(
-                                    fontSize: getProportionateScreenWidth(12),
-                                    color: Colors.grey)),
-                          ),
-                          Align(
-                              alignment: Alignment.bottomLeft,
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 9, bottom: 9, left: 20),
-                                child: bSaldoUangSaku
-                                    ? Text(
-                                        '${CurencyIdr.convertToIdr(saldoUangSaku, 0)}',
-                                        style: TextStyle(
-                                            fontSize:
-                                                getProportionateScreenWidth(
-                                                    15)))
-                                    : CustomShimmer(
-                                        height:
-                                            getProportionateScreenHeight(20),
-                                        width: getProportionateScreenWidth(150),
-                                      ),
-                              )),
-                          const Divider(
-                            // thickness: 1,
-                            indent: 10,
-                            endIndent: 10,
-                          ),
-                        ]),
+                        // Column(children: [
+                        //   Align(
+                        //     alignment: Alignment.centerLeft,
+                        //     // padding: const EdgeInsets.all(11.0),
+                        //     child: Text('Saldo Uang Saku',
+                        //         style: TextStyle(
+                        //             fontSize: getProportionateScreenWidth(12),
+                        //             color: Colors.grey)),
+                        //   ),
+                        //   Align(
+                        //       alignment: Alignment.bottomLeft,
+                        //       child: Padding(
+                        //         padding: const EdgeInsets.only(
+                        //             top: 9, bottom: 9, left: 20),
+                        //         child: bSaldoUangSaku
+                        //             ? Text(
+                        //                 '${CurencyIdr.convertToIdr(saldoUangSaku, 0)}',
+                        //                 style: TextStyle(
+                        //                     fontSize:
+                        //                         getProportionateScreenWidth(
+                        //                             15)))
+                        //             : CustomShimmer(
+                        //                 height:
+                        //                     getProportionateScreenHeight(20),
+                        //                 width: getProportionateScreenWidth(150),
+                        //               ),
+                        //       )),
+                        //   const Divider(
+                        //     // thickness: 1,
+                        //     indent: 10,
+                        //     endIndent: 10,
+                        //   ),
+                        // ]),
                         Column(children: [
                           Align(
                             alignment: Alignment.centerLeft,
